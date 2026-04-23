@@ -5,12 +5,18 @@ import EditButton from "@/components/EditButton"
 import DeleteButton from "@/components/DeleteButton"
 import MarkAsPaid from "@/components/MarkAsPaid"
 import EditModal from "./EditModal"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import DeleteModal from "./DeleteModal"
 import { useInvoices } from "@/context/InvoiceContext"
 
 export default function ViewInvoice() {
   const navigate = useNavigate()
+  // const editBtnRef = useRef<HTMLButtonElement>(null)
+  const editBtnRefMd = useRef<HTMLButtonElement>(null)
+  const editBtnRefMobile = useRef<HTMLButtonElement>(null)
+  // const deleteBtnRef = useRef<HTMLButtonElement>(null)
+  const deleteBtnRefMd = useRef<HTMLButtonElement>(null)
+  const deleteBtnRefMobile = useRef<HTMLButtonElement>(null)
   const { id } = useParams()
   const { invoices, deleteInvoice, markAsPaid } = useInvoices()
   const [isEditOpen, setIsEditOpen] = useState(false)
@@ -66,6 +72,12 @@ export default function ViewInvoice() {
     markAsPaid(invoice.id)
   }
 
+  const getActiveEditRef = () =>
+    editBtnRefMd.current?.offsetParent ? editBtnRefMd : editBtnRefMobile
+
+  const getActiveDeleteRef = () =>
+    deleteBtnRefMd.current?.offsetParent ? deleteBtnRefMd : deleteBtnRefMobile
+
   return (
     <div className="mt-8.25 md:mt-12.25 md:mb-33.75 lg:mt-16.25">
       <div className="px-6 lg:px-0">
@@ -96,10 +108,16 @@ export default function ViewInvoice() {
             {/* modify buttons for md screens up */}
             <div className="hidden items-center justify-center gap-2 md:flex">
               {invoice.status !== "paid" && (
-                <EditButton onEdit={() => setIsEditOpen(true)} />
+                <EditButton
+                  onEdit={() => setIsEditOpen(true)}
+                  triggerRef={editBtnRefMd}
+                />
               )}
 
-              <DeleteButton onDelete={() => setIsDeleteOpen(true)} />
+              <DeleteButton
+                onDelete={() => setIsDeleteOpen(true)}
+                triggerRef={deleteBtnRefMd}
+              />
 
               {invoice.status === "pending" && (
                 <MarkAsPaid onMarkAsPaid={handleMarkAsPaid} />
@@ -116,10 +134,16 @@ export default function ViewInvoice() {
 
       <div className="card-shadow mt-14 flex items-center justify-center gap-2 bg-modify-ctn pt-5.25 pb-5.5 md:hidden">
         {invoice.status !== "paid" && (
-          <EditButton onEdit={() => setIsEditOpen(true)} />
+          <EditButton
+            onEdit={() => setIsEditOpen(true)}
+            triggerRef={editBtnRefMobile}
+          />
         )}
 
-        <DeleteButton onDelete={() => setIsDeleteOpen(true)} />
+        <DeleteButton
+          onDelete={() => setIsDeleteOpen(true)}
+          triggerRef={deleteBtnRefMobile}
+        />
 
         {invoice.status === "pending" && (
           <MarkAsPaid onMarkAsPaid={handleMarkAsPaid} />
@@ -131,6 +155,7 @@ export default function ViewInvoice() {
         isOpen={isEditOpen}
         onClose={() => setIsEditOpen(false)}
         invoice={invoice}
+        getTriggerRef={getActiveEditRef}
       />
 
       <DeleteModal
@@ -138,6 +163,7 @@ export default function ViewInvoice() {
         onClose={() => setIsDeleteOpen(false)}
         invoiceId={invoice.id}
         onConfirm={handleDelete}
+        getTriggerRef={getActiveDeleteRef}
       />
     </div>
   )

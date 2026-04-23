@@ -5,6 +5,7 @@ type DeleteModalProps = {
   onClose: () => void
   invoiceId: string
   onConfirm: () => void
+  getTriggerRef?: () => React.RefObject<HTMLButtonElement | null>
 }
 
 export default function DeleteModal({
@@ -12,6 +13,7 @@ export default function DeleteModal({
   onClose,
   invoiceId,
   onConfirm,
+  getTriggerRef,
 }: DeleteModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -33,12 +35,17 @@ export default function DeleteModal({
     }
   }, [isOpen])
 
+  const handleClose = () => {
+    onClose()
+    getTriggerRef?.()?.current?.focus()
+  }
+
   useEffect(() => {
     if (!isOpen) return
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        onClose()
+        handleClose()
       }
     }
 
@@ -47,13 +54,13 @@ export default function DeleteModal({
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen])
 
   if (!isOpen) return null
 
   return (
     <div
-      onClick={onClose}
+      onClick={handleClose}
       className="modal-overlay fixed inset-0 z-100 flex min-h-screen w-full items-center justify-center overflow-y-auto bg-black/50"
     >
       <div
@@ -73,7 +80,7 @@ export default function DeleteModal({
 
         <div className="mt-5.5 flex items-center justify-end gap-2 md:mt-3.5">
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="variant-heading-s h-12 w-[91px] cursor-pointer rounded-[24px] bg-[#F9FAFE] text-07 dark:bg-04 dark:text-05"
           >
             Cancel

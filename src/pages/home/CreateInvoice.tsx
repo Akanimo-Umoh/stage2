@@ -11,6 +11,7 @@ import { addDays, format } from "date-fns"
 type CreateModalProps = {
   isOpen: boolean
   onClose: () => void
+  triggerRef?: React.RefObject<HTMLButtonElement | null>
 }
 
 type ItemField = {
@@ -29,7 +30,11 @@ function generateId() {
   return `${randomLetters}${randomNumbers}`
 }
 
-export default function CreateInvoice({ isOpen, onClose }: CreateModalProps) {
+export default function CreateInvoice({
+  isOpen,
+  onClose,
+  triggerRef,
+}: CreateModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const [errors, setErrors] = useState<FormErrors>({})
   const { addInvoice } = useInvoices()
@@ -187,6 +192,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateModalProps) {
   const handleClose = () => {
     resetForm()
     onClose()
+    triggerRef?.current?.focus()
   }
 
   // escape key

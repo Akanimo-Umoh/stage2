@@ -19,12 +19,14 @@ type EditModalProps = {
   isOpen: boolean
   onClose: () => void
   invoice: Invoice
+  getTriggerRef?: () => React.RefObject<HTMLButtonElement | null>
 }
 
 export default function EditModal({
   isOpen,
   onClose,
   invoice,
+  getTriggerRef,
 }: EditModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const { updateInvoice } = useInvoices()
@@ -87,10 +89,15 @@ export default function EditModal({
     }
   }, [isOpen])
 
+  const handleClose = () => {
+    onClose()
+    getTriggerRef?.()?.current?.focus()
+  }
+
   // escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
+      if (e.key === "Escape") handleClose()
     }
     if (isOpen) window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
@@ -221,14 +228,14 @@ export default function EditModal({
     }
 
     updateInvoice(updated)
-    onClose()
+    handleClose()
   }
 
   if (!isOpen) return null
 
   return (
     <div
-      onClick={onClose}
+      onClick={handleClose}
       className="modal-overlay fixed inset-0 z-40 min-h-screen w-full md:overflow-hidden md:bg-black/50"
     >
       <div
@@ -239,7 +246,7 @@ export default function EditModal({
       >
         <div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="mx-6 flex cursor-pointer items-center gap-6 md:hidden"
           >
             <img src={arrowIcon} alt="" className="rotate-180" />
@@ -330,7 +337,7 @@ export default function EditModal({
           <div className="card-shadow flex items-center justify-end gap-1.75 pt-5.25 pr-6 pb-5.5 md:bg-transparent md:py-7.75 dark:bg-03 md:dark:bg-transparent">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="variant-heading-s h-12 w-full max-w-24 cursor-pointer rounded-[24px] bg-[#F9FAFE] text-07 dark:bg-04 dark:text-05"
             >
               Cancel

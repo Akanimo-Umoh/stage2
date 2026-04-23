@@ -1,6 +1,6 @@
 import plusIcon from "@/assets/icon-plus.svg"
 import InvoiceCard from "./InvoiceCard"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import CreateInvoice from "./CreateInvoice"
 import { Filter } from "./Filter"
 import { useInvoices } from "@/context/InvoiceContext"
@@ -11,6 +11,7 @@ export default function HomePage() {
   const { invoices } = useInvoices()
   const [isCreateInvoice, setIsCreateInvoice] = useState(false)
   const [selectedStatuses, setSelectedStatuses] = useState<InvoiceStatus[]>([])
+  const createBtnRef = useRef<HTMLButtonElement>(null)
 
   const filteredInvoices =
     selectedStatuses.length === 0
@@ -40,7 +41,7 @@ export default function HomePage() {
         </div>
 
         <div className="flex items-center justify-center gap-4.75 md:gap-[41px]">
-          <div className="w-full">
+          <div className="shrink-0">
             <Filter
               selected={selectedStatuses}
               onChange={setSelectedStatuses}
@@ -48,15 +49,16 @@ export default function HomePage() {
           </div>
 
           <button
+            ref={createBtnRef}
             onClick={() => setIsCreateInvoice(true)}
-            className="flex h-12 w-full max-w-37.5 min-w-[90px] cursor-pointer items-center gap-2 rounded-[24px] bg-01 pr-[15px] pl-1.5 hover:bg-02 md:gap-4 md:pl-2"
+            className="flex h-12 w-full max-w-37.5 min-w-[90px] flex-1 shrink-0 cursor-pointer items-center justify-start gap-2 rounded-[24px] bg-01 pr-[15px] pl-1.5 hover:bg-02 md:gap-4 md:pl-2"
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
               <img src={plusIcon} alt="" />
             </div>
 
             <p className="variant-heading-s text-white md:hidden">New</p>
-            <p className="variant-heading-s hidden text-white md:flex">
+            <p className="variant-heading-s hidden shrink-0 text-white md:flex">
               New Invoice
             </p>
           </button>
@@ -64,6 +66,7 @@ export default function HomePage() {
           <CreateInvoice
             isOpen={isCreateInvoice}
             onClose={() => setIsCreateInvoice(false)}
+            triggerRef={createBtnRef}
           />
         </div>
       </div>
