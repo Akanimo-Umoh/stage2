@@ -308,3 +308,7 @@
     transform: scale(1);
   }
 }
+
+.select-test {
+  @apply dark:hover:bg-02;
+}

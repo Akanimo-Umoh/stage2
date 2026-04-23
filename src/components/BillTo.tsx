@@ -207,13 +207,13 @@ export default function BillTo({
               <SelectTrigger className="variant-heading-s form-input cursor-pointer">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="dark:bg-04">
                 <SelectGroup>
                   {termOptions.map((opt) => (
                     <SelectItem
                       key={opt.value}
                       value={opt.value}
-                      className="variant-heading-s"
+                      className="variant-heading-s h-[45px] cursor-pointer select-test"
                     >
                       {opt.label}
                     </SelectItem>
