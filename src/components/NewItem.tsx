@@ -125,7 +125,8 @@ export default function NewItem({
                 </div>
 
                 {/* delete item */}
-                <div
+                <button
+                  type="button"
                   onClick={() => onDelete(item.id)}
                   className="group -mb-4.5 flex shrink-0 cursor-pointer items-center justify-center"
                 >
@@ -140,7 +141,7 @@ export default function NewItem({
                       className="fill-[#888EB0] group-hover:fill-09"
                     />
                   </svg>
-                </div>
+                </button>
               </div>
             </div>
           )
