@@ -250,6 +250,23 @@
   .custom-scrollbar::-webkit-scrollbar-button {
     display: none;
   }
+
+  body::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: #dfe3fa;
+    border-radius: 4px;
+  }
+
+  body::-webkit-scrollbar-button {
+    display: none;
+  }
 }
 
 .form-input {

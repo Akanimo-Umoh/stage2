@@ -27,7 +27,7 @@ export default function Navbar() {
   const { resolvedTheme, setTheme } = useTheme()
 
   return (
-    <nav className="fixed top-0 right-0 left-0 z-100 h-18 bg-[#373B53] transition-transform duration-300 ease-in-out md:h-20 lg:relative lg:h-full lg:w-25.75 lg:rounded-r-4xl dark:bg-[#1E2139]">
+    <nav className="fixed top-0 right-0 left-0 z-100 h-18 bg-[#373B53] transition-transform duration-300 ease-in-out md:h-20 lg:h-full lg:w-25.75 lg:rounded-r-4xl dark:bg-[#1E2139]">
       <div className="flex h-full items-center justify-between lg:flex-col">
         <div className="flex h-full flex-1 items-center justify-between pr-6 md:pr-8 lg:flex-col lg:p-0 lg:pb-7.75">
           <Link
