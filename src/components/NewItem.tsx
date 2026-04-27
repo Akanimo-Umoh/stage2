@@ -86,7 +86,7 @@ export default function NewItem({
                       onChange={(e) =>
                         onUpdate(item.id, "quantity", Number(e.target.value))
                       }
-                      className={`variant-heading-s form-input ${qtyError ? "form-input-error" : ""}`}
+                      className={`variant-heading-s form-input number-input ${qtyError ? "form-input-error" : ""}`}
                       min={1}
                     />
                   </div>
@@ -105,7 +105,7 @@ export default function NewItem({
                       onChange={(e) =>
                         onUpdate(item.id, "price", Number(e.target.value))
                       }
-                      className={`variant-heading-s form-input ${priceError ? "form-input-error" : ""}`}
+                      className={`variant-heading-s form-input number-input ${priceError ? "form-input-error" : ""}`}
                       min={0}
                     />
                   </div>

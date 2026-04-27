@@ -33,7 +33,9 @@ export function InvoiceProvider({ children }: { children: React.ReactNode }) {
 
   const updateInvoice = (updated: Invoice) => {
     setInvoices((prev) =>
-      prev.map((inv) => (inv.id === updated.id ? updated : inv))
+      prev.map((inv) =>
+        inv.id === updated.id ? { ...inv, status: "pending", updated } : inv
+      )
     )
   }
 
